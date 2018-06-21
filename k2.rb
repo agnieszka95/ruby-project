@@ -25,7 +25,28 @@ class Functionality
 			puts "Error while downloading"
 			abort
 		end
-	end									
+	end		
+
+def code_check_result
+			#utworzenie zmiennej do wykonania programu z parametrem -c który zwraca czy program wykonał się poprawnie czy wystąpiły w nim jakieś błędy
+		check_syntax_cmd = "ruby -c out.rb"
+		#wywołanie za pomocą system(check_syntax_cmd) wykonania skryptu z kodem programu odebrsnego z kommp 1, który zwróci jego poprawność
+		code_check_result = system(check_syntax_cmd)
+		puts ''
+
+		if code_check_result
+			code_check_result = "OK"
+			puts ''
+			puts "Code check result = #{code_check_result}"
+			result = ""
+			return result.concat(code_check_result)
+		else
+		#W przypadku gdy code_check_result zwróciło false oznacza to że zapisany pogram w skrypcie jest nie poprawny i zawiera błędy
+		#Zostaje wywołana zdalna metoda send_code_check_result z komp1 za pomocą utworzonego wcześniej obiektu remote_object i przesłany do niej status ERROR
+			code_check_result = "ERROR"
+			return code_check_result
+		end
+	end
 
 end
 
