@@ -34,6 +34,8 @@ end
 #Wysłanie kodu na komputer 2
 remote_object.code_to_send(code)
 
+#odebranie rezultatu kompilacji i wartości zwracanej
+puts "Code check result: #{remote_object.code_check_result}"
 
 #kod, ktory wykona sie przed mainem		
 BEGIN { 																						

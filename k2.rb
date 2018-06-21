@@ -27,19 +27,30 @@ class Functionality
 		end
 	end		
 
-def code_check_result
+	def code_check_result
 			#utworzenie zmiennej do wykonania programu z parametrem -c który zwraca czy program wykonał się poprawnie czy wystąpiły w nim jakieś błędy
 		check_syntax_cmd = "ruby -c out.rb"
 		#wywołanie za pomocą system(check_syntax_cmd) wykonania skryptu z kodem programu odebrsnego z kommp 1, który zwróci jego poprawność
 		code_check_result = system(check_syntax_cmd)
 		puts ''
 
+		  #Jeśli code_check_result zwróciło 'true' to znaczy ze skrypt poprawnie się wykonał i program działa poprawnie. Zapisanu zostaje status do przesłania na 2 komp
+		#Następnie zostaje wykonany skrypt bez dodatkowych parametrów i wszystkie elementy z nim związane zostają wyświetlone na konsoli
+		#Wynik działania programu zapisany zostaje do zmiennej code_result który również zostaje wyświetlony na konsoli
+		#Zostaje wywołana zdalna metoda send_code_check_result z komp1 za pomocą utworzonego wcześniej obiektu remote_object i przesłany do niej status programu
+		#Zostaje wywołana zdalna metoda send_code_result z komp1 za pomocą utworzonego wcześniej obiektu remote_object i przesłany do niej rezultat wykonania programu
+
 		if code_check_result
 			code_check_result = "OK"
+			puts "Program code: "
+			code_result = eval(File.open(File.expand_path('./out.rb')).read)
 			puts ''
 			puts "Code check result = #{code_check_result}"
+			puts "Code result = #{code_result}"
 			result = ""
-			return result.concat(code_check_result)
+			return result.concat(code_check_result).concat("\nCode result: ").concat(code_result.to_s)
+			#return code_check_result
+			#return code_result
 		else
 		#W przypadku gdy code_check_result zwróciło false oznacza to że zapisany pogram w skrypcie jest nie poprawny i zawiera błędy
 		#Zostaje wywołana zdalna metoda send_code_check_result z komp1 za pomocą utworzonego wcześniej obiektu remote_object i przesłany do niej status ERROR
@@ -47,8 +58,6 @@ def code_check_result
 			return code_check_result
 		end
 	end
-
-end
 
 puts "Creating new object..."
 #tworzymy obiekt funkcjonalnosci komputera nr 1 i wyświetlamy odpowiedni komunikat na konsoli
