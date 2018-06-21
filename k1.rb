@@ -14,8 +14,8 @@ else
 end
 
 puts "Connecting..."
-#Połączenie się z komputerem 1 i pobranie obiektu, ktory jest online na adresie localhost i porcie 8888
-#Pobrany obiekt z komp1 zapisywany jest w zmiennej remote_object. Następnie wyświetlamy odpowiednie komunikaty w przypadku sukcesu oraz błędu
+#Połączenie się z komputerem 2 i pobranie obiektu, ktory jest online na adresie localhost i porcie 8888
+#Pobrany obiekt z komp2 zapisywany jest w zmiennej remote_object. Następnie wyświetlamy odpowiednie komunikaty w przypadku sukcesu oraz błędu
 if remote_object = DRbObject.new_with_uri('druby://localhost:8888')
 	puts "Connection established!"
 	puts ""
@@ -24,6 +24,15 @@ else
 	abort
 end
 
+#Wczytanie kodu w Ruby do wysłania
+code = ""
+File.open("program.txt").each do |line|
+	puts line
+	code.concat(line)
+end
+
+#Wysłanie kodu na komputer 2
+remote_object.code_to_send(code)
 
 
 #kod, ktory wykona sie przed mainem		

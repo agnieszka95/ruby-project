@@ -5,7 +5,27 @@ require 'drb/drb'
 
 #klasa, ktora przetrzymuje rozne funkcjonalnosci komputera nr 1
 class Functionality	
-#utworzona zostaje zmienna w której przetrzymywany jest kod programu do wysłania na komp 2 										
+#utworzona zostaje zmienna w której przetrzymywany jest kod programu do wysłania na komp 2 	
+	def code_to_send(code)
+		puts "\nDownloading code..."  
+		if File.open("out.rb", 'w') {|f| f.write(code) }
+			puts "Code downloaded!"
+			
+			#tworzenie folderu i sprawdzanie czy taki istnieje 
+			dir_name = "programs"
+			Dir.mkdir(dir_name) unless File.exists?(dir_name)                                                                              
+
+			#zapisywanie tam tego programu
+			if File.open("programs/out.rb", 'w') {|f| f.write(code) }
+				puts "Program saved!"
+			else
+				puts "Blad zapisu"
+			end
+		else
+			puts "Error while downloading"
+			abort
+		end
+	end									
 
 end
 
