@@ -37,6 +37,9 @@ remote_object.code_to_send(code)
 #odebranie rezultatu kompilacji i wartości zwracanej
 puts "Code check result: #{remote_object.code_check_result}"
 
+#odebranie raportu podobieństwa
+puts "#{remote_object.print_raport}"
+
 #kod, ktory wykona sie przed mainem		
 BEGIN { 																						
    puts "Initializing Client"

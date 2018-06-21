@@ -59,6 +59,48 @@ class Functionality
 		end
 	end
 
+#Porownanie plików - pod kątem budowy
+def print_raport
+	
+		Dir["programs"].length
+		folder_path = "programs"
+		#spis plikow w folderze
+		filenames = Dir.glob 'programs/*.rb'                                  
+
+		#zamienianie nazw istniejacych plików
+		filenames.each_with_index do |filename, index|                        
+			new_name= folder_path + "/#{index}" + File.extname(filename)
+			unless File.exists?(new_name)
+				File.rename(filename, new_name)
+			else
+				index += 1
+			end
+		end
+		filenames = Dir.glob 'programs/*.rb'
+		num=filenames.length  #ilosc elem w folderze
+
+
+		if (num>=2)
+		  raport="Raport:"
+			for i in (0..num-1) do
+				for j in (i..num-1) do
+					if(i!=j)
+						string= "\nwspolna tresc pliku #{i} oraz #{j}\n"
+						raport.concat(string)                                                                      # klejenie
+						string= File.readlines(folder_path + "/#{i}.rb") & File.readlines(folder_path + "/#{j}.rb")#wspolne linie kodu
+						raport.concat(string.to_s)
+					end
+				end
+		  end
+		else
+			raport="Brak plików do analizy\n"
+		end
+		puts raport
+		#wysylanie
+		return raport
+	end
+end
+
 puts "Creating new object..."
 #tworzymy obiekt funkcjonalnosci komputera nr 1 i wyświetlamy odpowiedni komunikat na konsoli
 if object = Functionality.new									
