@@ -1,52 +1,51 @@
-#komputer1.rb
-#kod odpowiedzialny za funkcjonalnosc komputera nr 1
+# computer1.rb
+# Code responsible for the functionality of computer no. 1
 
 require 'drb/drb'
 
-#rozpoczecie uslugi RMI
+# Start RMI service
 puts "Starting service..."
-if DRb.start_service									
-	puts "Starting service - succes!"
-	puts ""
+if DRb.start_service
+  puts "Service started successfully!"
+  puts ""
 else
-	puts "Error while starting service"
-	abort
+  puts "Error while starting service"
+  abort
 end
 
 puts "Connecting..."
-#Połączenie się z komputerem 2 i pobranie obiektu, ktory jest online na adresie localhost i porcie 8888
-#Pobrany obiekt z komp2 zapisywany jest w zmiennej remote_object. Następnie wyświetlamy odpowiednie komunikaty w przypadku sukcesu oraz błędu
+# Connect to computer 2 and retrieve the object that is online at localhost:8888
+# The object from comp2 is stored in remote_object and used to display appropriate messages
 if remote_object = DRbObject.new_with_uri('druby://localhost:8888')
-	puts "Connection established!"
-	puts ""
+  puts "Connection established!"
+  puts ""
 else
-	puts "Error while connecting"
-	abort
+  puts "Error while connecting"
+  abort
 end
 
-#Wczytanie kodu w Ruby do wysłania
+# Load Ruby code to send
 code = ""
 File.open("program.txt").each do |line|
-	puts line
-	code.concat(line)
+  puts line
+  code.concat(line)
 end
 
-#Wysłanie kodu na komputer 2
+# Send code to computer 2
 remote_object.code_to_send(code)
 
-#odebranie rezultatu kompilacji i wartości zwracanej
+# Receive compilation result and return value
 puts "Code check result: #{remote_object.code_check_result}"
 
-#odebranie raportu podobieństwa
+# Receive similarity report
 puts "#{remote_object.print_raport}"
 
-#kod, ktory wykona sie przed mainem		
-BEGIN { 																						
-   puts "Initializing Client"
+# Code that runs before main
+BEGIN {
+  puts "Initializing Client"
 }
 
-
-#kod, ktory wykona sie po mainie
-END {  																	
-   puts "Closing Client"
+# Code that runs after main
+END {
+  puts "Closing Client"
 }
